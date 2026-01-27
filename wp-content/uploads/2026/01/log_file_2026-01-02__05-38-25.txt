@@ -1,0 +1,60 @@
+
+---Downloaded files---
+The import files for: New York Demo were successfully downloaded!
+Initial max execution time = 120
+Files info:
+Site URL = http://localhost/gpro-realestate
+Data file = C:\xampp\htdocs\gpro-realestate/wp-content/uploads/2026/01/demo-content-import-file_2026-01-02__05-38-25.xml
+Widget file = C:\xampp\htdocs\gpro-realestate/wp-content/uploads/2026/01/demo-widgets-import-file_2026-01-02__05-38-25.json
+Customizer file = not defined!
+Redux files:
+wpresidence_admin -> C:\xampp\htdocs\gpro-realestate/wp-content/uploads/2026/01/demo-redux-import-file_0-2026-01-02__05-38-25.json 
+
+
+---Importing widgets---
+Primary Widget Area : 
+
+Wp Estate: Advanced Search - Advanced Search - Widget already exists
+Wp Estate: Latest Listing  - Latest Listings - Widget already exists
+Wp Estate: Mortgage - No Title - Widget already exists
+Wp Estate: Social Links for Sidebar - Social Links: - Widget already exists
+
+Secondary Widget Area : 
+
+Wp Estate: Featured Agent - No Title - Widget already exists
+Wp Estate: Contact - Contact - Widget already exists
+Wp Estate: Advanced Search - Advanced Search - Widget already exists
+Wp Estate: Login &amp; Register - No Title - Widget already exists
+
+First Footer Widget Area : 
+
+Text - About - Widget already exists
+
+Second Footer Widget Area : 
+
+Wp Estate: Contact - Contact - Widget already exists
+
+Third Footer Widget Area : 
+
+Wp Estate: Latest Listing  - Featured Listings - Widget already exists
+
+Fourth Footer Widget Area : 
+
+Wp Estate: List Properties by Categories - Listings - Widget already exists
+
+Top Bar Left Widget Area : 
+
+Wp Estate:  Social Links for Header / Footer - No Title - Widget already exists
+
+Top Bar Right Widget Area : 
+
+Text - No Title - Widget already exists
+Custom HTML - No Title - Widget already exists
+
+
+
+---Importing Redux settings---
+Redux settings import for: wpresidence_admin finished successfully!
+
+---ocdi/after_import---
+

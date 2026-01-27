@@ -1,9 +1,4 @@
-# Uploads
-/wp-content/uploads/
 
-# Cache / log
-/wp-content/cache/
-/wp-content/debug.log
 
 # Environment & secrets
 /wp-config.php
@@ -15,8 +10,4 @@
 
 # OS
 .DS_Store
-
-# Node / build (nếu có)
-node_modules/
-dist/
 
