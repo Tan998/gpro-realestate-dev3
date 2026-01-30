@@ -115,7 +115,7 @@ function seedprod_lite_v2_validate_import_zip( $zip_file, $is_theme = false ) {
 	$has_required_file = false;
 
 	// Validate file structure.
-	$allowed_extensions = array( 'json', 'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'css' );
+	$allowed_extensions = array( 'json', 'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'css', 'ico', 'bmp', 'tiff' );
 	$max_file_size      = 100 * 1024 * 1024; // 100MB max per file.
 
 	for ( $i = 0; $i < $zip->numFiles; $i++ ) {

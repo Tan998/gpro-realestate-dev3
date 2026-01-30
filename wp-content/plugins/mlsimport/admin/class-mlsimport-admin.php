@@ -834,7 +834,7 @@ class Mlsimport_Admin {
          * @since    4.0.1
          * returns token fron mlsimport
          */
-        public function mlsimport_saas_check_mls_connection() {
+	public function mlsimport_saas_check_mls_connection() {
 
 		$values  = array();
 		$options = get_option( $this->plugin_name . '_admin_options' );
@@ -918,18 +918,18 @@ class Mlsimport_Admin {
 
 
                 if ( trim( $mls_token ) === '' ) {
-                        if ( $mls_id_int > 900 && $mls_id_int < 3000 ) {
+                        if ( $mls_id_int > 900 && $mls_id_int < 3000 ) { // Trestle
                                 if ( trim( $mlsimport_tresle_client_id ) === '' || trim( $mlsimport_tresle_client_secret ) === '' ) {
                                         return;
                                 }
-                        } elseif ( ( $mls_id_int >= 3000 && $mls_id_int < 5000 ) || $mls_id_int >= 8000 ) {
+                        } elseif ( $this->mlsimport_is_connectmls_provider( $mls_id_int ) ) { // ConnectMLS
                                 if (
                                         trim( $mlsimport_connectmls_username ) === '' ||
                                         trim( $mlsimport_connectmls_password ) === ''
                                 ) {
                                         return;
                                 }
-                        } elseif ( $mls_id_int >= 5000 && $mls_id_int < 6000 ) {
+                        } elseif ( $mls_id_int >= 5000 && $mls_id_int < 6000 ) { // Rapattoni
                                 if (
                                         trim( $mlsimport_rapattoni_client_id ) === '' ||
                                         trim( $mlsimport_rapattoni_client_secret ) === '' ||
@@ -938,14 +938,14 @@ class Mlsimport_Admin {
                                 ) {
                                         return;
                                 }
-                        } elseif ( $mls_id_int >= 6000 && $mls_id_int < 7000 ) {
+                        } elseif ( $mls_id_int >= 6000 && $mls_id_int < 7000 ) { // Paragon
                                 if (
                                         trim( $mlsimport_paragon_client_id ) === '' ||
                                         trim( $mlsimport_paragon_client_secret ) === ''
                                 ) {
                                         return;
                                 }
-                        } elseif ( $mls_id_int >= 7000 ) {
+                        } elseif ( $mls_id_int >= 7000 && $mls_id_int < 8000 ) { // Realtor.ca
                                 if (
                                         trim( $mlsimport_realtorca_client_id ) === '' ||
                                         trim( $mlsimport_realtorca_client_secret ) === ''
@@ -999,6 +999,10 @@ class Mlsimport_Admin {
 
 		return $answer;
 	}
+
+        private function mlsimport_is_connectmls_provider( $mls_id_int ) {
+                return $mls_id_int >= 8000 && $mls_id_int < 9000;
+        }
 
 
 

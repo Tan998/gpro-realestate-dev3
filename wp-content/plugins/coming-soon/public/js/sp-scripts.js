@@ -1570,3 +1570,466 @@ if (jQuery(".sp-skin-block.sp-layout-masonary .seedprod-masonary-post-block").le
     });
   });
 }
+
+/**
+ * Table of Contents Block - Pro Version
+ * Dynamically generates TOC from headings on the page
+ */
+function seedprod_pro_generate_toc(blockId, options) {
+  var $toc = jQuery('#sp-toc-' + blockId + ' .sp-toc-list');
+  var $container = jQuery(options.container);
+  if (!$container.length) {
+    return;
+  }
+  var headings = $container.find(options.headings);
+
+  // Always exclude headings inside the TOC block itself
+  headings = headings.not('#sp-toc-' + blockId + ' *');
+
+  // Filter out excluded elements
+  if (options.exclude) {
+    var excludeSelectors = options.exclude.split(',').map(function (s) {
+      return s.trim();
+    });
+    excludeSelectors.forEach(function (selector) {
+      if (selector) {
+        headings = headings.not(selector);
+      }
+    });
+  }
+
+  // Clear existing items
+  $toc.empty();
+  if (headings.length === 0) {
+    var noHeadingsMsg = options.noHeadingsText || 'No headings found';
+    $toc.html('<li style="padding: 10px; color: #999;">' + noHeadingsMsg + '</li>');
+    return;
+  }
+
+  // Track heading numbers for hierarchical numbering
+  var numbers = {};
+  var minLevel = 6;
+
+  // Find the minimum heading level to use as base
+  headings.each(function () {
+    var level = parseInt(this.tagName.substring(1));
+    if (level < minLevel) {
+      minLevel = level;
+    }
+  });
+
+  // Generate TOC items
+  headings.each(function (index) {
+    var $heading = jQuery(this);
+    // Handle line breaks - replace <br> tags with spaces before getting text
+    var $clone = $heading.clone();
+    $clone.find('br').replaceWith(' ');
+    var text = $clone.text().trim();
+    var level = parseInt(this.tagName.substring(1));
+
+    // Skip if no text
+    if (!text) {
+      return;
+    }
+
+    // Generate anchor ID if not present
+    var anchor = $heading.attr('id');
+    if (!anchor) {
+      anchor = 'toc-heading-' + blockId + '-' + index;
+      $heading.attr('id', anchor);
+    }
+
+    // Calculate hierarchical number and depth
+    var numberText = '';
+    var showNumberSpan = false;
+    var hierarchyDepth = 0; // Track visual hierarchy depth
+
+    if (options.showNumbers && options.listStyle === 'none') {
+      showNumberSpan = true;
+      if (options.hierarchical) {
+        // Initialize level counters
+        if (!numbers[level]) {
+          numbers[level] = 0;
+        }
+        numbers[level]++;
+
+        // Reset deeper levels
+        for (var i = level + 1; i <= 6; i++) {
+          numbers[i] = 0;
+        }
+
+        // Build number string
+        var numParts = [];
+        for (var i = minLevel; i <= level; i++) {
+          if (numbers[i]) {
+            numParts.push(numbers[i]);
+          }
+        }
+        numberText = numParts.join('.') + '. ';
+
+        // Use number of parts to determine visual depth (not level difference)
+        hierarchyDepth = numParts.length - 1;
+      } else {
+        numberText = index + 1 + '. ';
+      }
+    } else if (options.hierarchical) {
+      // Even without numbers, calculate hierarchy depth for indentation
+      if (!numbers[level]) {
+        numbers[level] = 0;
+      }
+      numbers[level]++;
+
+      // Reset deeper levels
+      for (var i = level + 1; i <= 6; i++) {
+        numbers[i] = 0;
+      }
+
+      // Count active levels for depth
+      var activeLevels = 0;
+      for (var i = minLevel; i <= level; i++) {
+        if (numbers[i]) {
+          activeLevels++;
+        }
+      }
+      hierarchyDepth = activeLevels - 1;
+    }
+
+    // Calculate progressive indentation based on hierarchy depth (only if hierarchical is enabled)
+    var paddingLeft = 0;
+    if (options.hierarchical) {
+      var indentBase = parseInt(options.listIndent) || 20;
+      paddingLeft = hierarchyDepth * indentBase;
+    }
+
+    // Create list item with progressive indentation (only if hierarchical)
+    var linkHtml = '<a href="#' + anchor + '">';
+    if (showNumberSpan && numberText) {
+      linkHtml += '<span class="sp-toc-number">' + numberText + '</span>';
+    }
+    linkHtml += text + '</a>';
+    var $li = jQuery('<li>').addClass('sp-toc-level-' + level).css('padding-left', paddingLeft + 'px').html(linkHtml);
+    $toc.append($li);
+  });
+
+  // Add smooth scroll
+  if (options.smoothScroll) {
+    jQuery('#sp-toc-' + blockId + ' a').on('click', function (e) {
+      e.preventDefault();
+      var target = jQuery(this.getAttribute('href'));
+      if (target.length) {
+        jQuery('html, body').animate({
+          scrollTop: target.offset().top - options.offset
+        }, 500);
+      }
+    });
+  }
+
+  // Add minimize box functionality
+  if (options.minimizeBox) {
+    var $wrapper = jQuery('#sp-toc-' + blockId);
+    var $title = $wrapper.find('.sp-toc-title');
+    var $list = $wrapper.find('.sp-toc-list');
+    var $inner = $wrapper.find('.sp-toc-inner');
+
+    // Create toggle button with FontAwesome icons
+    var expandIcon = options.expandIcon || 'fas fa-chevron-down';
+    var collapseIcon = options.collapseIcon || 'fas fa-chevron-up';
+    var $toggleBtn = jQuery('<span class="sp-toc-toggle"></span>').css({
+      'cursor': 'pointer',
+      'float': 'right',
+      'font-size': '16px',
+      'line-height': '1',
+      'user-select': 'none'
+    });
+
+    // Create icon element
+    var $icon = jQuery('<i></i>').addClass(collapseIcon);
+    $toggleBtn.append($icon);
+    if ($title.length) {
+      $title.append($toggleBtn);
+      $title.css('cursor', 'pointer');
+    } else {
+      // If no title, add toggle button at top of container
+      var $toggleWrapper = jQuery('<div class="sp-toc-toggle-wrapper"></div>').css({
+        'text-align': 'right',
+        'margin-bottom': '10px'
+      }).append($toggleBtn);
+      $inner.prepend($toggleWrapper);
+    }
+
+    // Toggle function
+    var toggleTOC = function toggleTOC() {
+      var isCollapsed = $wrapper.hasClass('sp-toc-collapsed');
+      if (isCollapsed) {
+        // Expanding - show content
+        $wrapper.removeClass('sp-toc-collapsed');
+        $list.slideDown(300);
+        // Swap icon classes
+        $icon.removeClass(expandIcon).addClass(collapseIcon);
+      } else {
+        // Collapsing - hide content
+        $wrapper.addClass('sp-toc-collapsed');
+        $list.slideUp(300);
+        // Swap icon classes
+        $icon.removeClass(collapseIcon).addClass(expandIcon);
+      }
+    };
+
+    // Ensure TOC starts expanded on frontend (remove any collapsed state from builder)
+    $wrapper.removeClass('sp-toc-collapsed');
+    $list.show();
+    $icon.removeClass(expandIcon).addClass(collapseIcon);
+
+    // Add click handlers
+    if ($title.length) {
+      $title.on('click', toggleTOC);
+    } else {
+      $toggleBtn.on('click', toggleTOC);
+    }
+
+    // Check minimized state based on screen size
+    var checkMinimizedState = function checkMinimizedState() {
+      var width = jQuery(window).width();
+      var minimizedOn = options.minimizedOn || '';
+      var shouldCollapse = false;
+      if (minimizedOn === 'mobile' && width < 768) {
+        shouldCollapse = true;
+      } else if (minimizedOn === 'tablet' && width < 1025) {
+        shouldCollapse = true;
+      } else if (minimizedOn === 'both' && width < 1025) {
+        shouldCollapse = true;
+      }
+      if (shouldCollapse && !$wrapper.hasClass('sp-toc-collapsed')) {
+        $list.hide();
+        $wrapper.addClass('sp-toc-collapsed');
+        // Update icon classes
+        $icon.removeClass(collapseIcon).addClass(expandIcon);
+      }
+    };
+
+    // Check on load and resize
+    checkMinimizedState();
+
+    // Simple debounced resize handler
+    var resizeTimer;
+    jQuery(window).on('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(checkMinimizedState, 250);
+    });
+  }
+
+  // Add collapse subitems functionality
+  if (options.collapseSubitems && options.hierarchical) {
+    jQuery('#sp-toc-' + blockId + ' .sp-toc-list li').each(function () {
+      var $li = jQuery(this);
+      var classes = $li.attr('class') || '';
+      var levelMatch = classes.match(/sp-toc-level-(\d+)/);
+      if (!levelMatch) {
+        return; // Skip if no level class found
+      }
+      var level = parseInt(levelMatch[1]);
+
+      // Check if this item has subitems (next sibling with higher level)
+      var $next = $li.next();
+      if ($next.length) {
+        var nextClasses = $next.attr('class') || '';
+        var nextLevelMatch = nextClasses.match(/sp-toc-level-(\d+)/);
+        if (!nextLevelMatch) {
+          return; // Skip if next item has no level class
+        }
+        var nextLevel = parseInt(nextLevelMatch[1]);
+        if (nextLevel > level) {
+          // This item has subitems - add collapse toggle
+          var $collapseToggle = jQuery('<span class="sp-toc-collapse-toggle"></span>').css({
+            'cursor': 'pointer',
+            'margin-left': '8px',
+            'font-size': '0.85em',
+            'user-select': 'none',
+            'display': 'inline-block',
+            'vertical-align': 'middle'
+          });
+
+          // Add FontAwesome icon for subitems
+          var $subitemIcon = jQuery('<i></i>').addClass('fas fa-chevron-down').css({
+            'transition': 'transform 0.2s ease',
+            'display': 'inline-block'
+          });
+          $collapseToggle.append($subitemIcon);
+
+          // Add toggle after the link text
+          var $link = $li.find('a').first();
+          if ($link.length) {
+            $link.append($collapseToggle);
+          }
+
+          // Mark subitems - collect all child items
+          var $subitems = jQuery();
+          var $current = $li.next();
+          while ($current.length) {
+            var currentClasses = $current.attr('class') || '';
+            var currentLevelMatch = currentClasses.match(/sp-toc-level-(\d+)/);
+            if (!currentLevelMatch) {
+              break;
+            }
+            var currentLevel = parseInt(currentLevelMatch[1]);
+            if (currentLevel > level) {
+              $subitems = $subitems.add($current);
+              $current.addClass('sp-toc-subitem sp-toc-parent-' + $li.index());
+              $current = $current.next();
+            } else {
+              break;
+            }
+          }
+
+          // Start collapsed by default if option is enabled
+          if ($subitems.length > 0) {
+            $subitems.hide();
+            $li.addClass('sp-toc-item-collapsed');
+            $subitemIcon.css('transform', 'rotate(-90deg)');
+          }
+
+          // Toggle handler
+          $collapseToggle.on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if ($li.hasClass('sp-toc-item-collapsed')) {
+              $subitems.slideDown(250);
+              $li.removeClass('sp-toc-item-collapsed');
+              $subitemIcon.css('transform', 'rotate(0deg)');
+            } else {
+              $subitems.slideUp(250);
+              $li.addClass('sp-toc-item-collapsed');
+              $subitemIcon.css('transform', 'rotate(-90deg)');
+            }
+          });
+        }
+      }
+    });
+  }
+
+  // Add sticky positioning
+  if (options.position === 'sticky' || options.position === 'fixed') {
+    var $wrapper = jQuery('#sp-toc-' + blockId);
+    var topOffset = parseInt(options.topOffset) || 80;
+    if (options.position === 'sticky') {
+      $wrapper.css({
+        'position': 'sticky',
+        'top': topOffset + 'px',
+        'z-index': '100'
+      });
+    } else if (options.position === 'fixed') {
+      // Save original position for fixed
+      var originalOffset = $wrapper.offset();
+      var $placeholder = jQuery('<div class="sp-toc-placeholder"></div>').css({
+        'height': $wrapper.outerHeight(),
+        'display': 'none'
+      }).insertBefore($wrapper);
+      var checkFixed = function checkFixed() {
+        var scrollTop = jQuery(window).scrollTop();
+        if (scrollTop > originalOffset.top - topOffset) {
+          if (!$wrapper.hasClass('sp-toc-fixed')) {
+            $wrapper.addClass('sp-toc-fixed').css({
+              'position': 'fixed',
+              'top': topOffset + 'px',
+              'z-index': '100',
+              'width': $wrapper.outerWidth()
+            });
+            $placeholder.show();
+          }
+        } else {
+          if ($wrapper.hasClass('sp-toc-fixed')) {
+            $wrapper.removeClass('sp-toc-fixed').css({
+              'position': '',
+              'top': '',
+              'width': ''
+            });
+            $placeholder.hide();
+          }
+        }
+      };
+      jQuery(window).on('scroll', checkFixed);
+      checkFixed();
+    }
+  }
+}
+
+/**
+ * Table of Contents Block - Lite Version
+ * Simplified version for free plugin
+ */
+function seedprod_lite_generate_toc(blockId, options) {
+  var $toc = jQuery('#sp-toc-' + blockId + ' .sp-toc-list');
+  var $container = jQuery(options.container);
+  if (!$container.length) {
+    return;
+  }
+  var headings = $container.find(options.headings);
+
+  // Always exclude headings inside the TOC block itself
+  headings = headings.not('#sp-toc-' + blockId + ' *');
+
+  // Filter out excluded elements
+  if (options.exclude) {
+    var excludeSelectors = options.exclude.split(',').map(function (s) {
+      return s.trim();
+    });
+    excludeSelectors.forEach(function (selector) {
+      if (selector) {
+        headings = headings.not(selector);
+      }
+    });
+  }
+
+  // Clear existing items
+  $toc.empty();
+  if (headings.length === 0) {
+    var noHeadingsMsg = options.noHeadingsText || 'No headings found';
+    $toc.html('<li style="padding: 10px; color: #999;">' + noHeadingsMsg + '</li>');
+    return;
+  }
+
+  // Generate TOC items (flat list for lite version)
+  headings.each(function (index) {
+    var $heading = jQuery(this);
+    var text = $heading.text().trim();
+    var level = parseInt(this.tagName.substring(1));
+
+    // Skip if no text
+    if (!text) {
+      return;
+    }
+
+    // Generate anchor ID if not present
+    var anchor = $heading.attr('id');
+    if (!anchor) {
+      anchor = 'toc-heading-' + blockId + '-' + index;
+      $heading.attr('id', anchor);
+    }
+
+    // Create number text
+    var numberText = '';
+    if (options.showNumbers) {
+      numberText = index + 1 + '. ';
+    }
+
+    // Calculate indent (simple version)
+    var indentLevel = (level - 2) * 20;
+
+    // Create list item
+    var $li = jQuery('<li>').addClass('sp-toc-level-' + level).css('margin-left', Math.max(0, indentLevel) + 'px').html('<a href="#' + anchor + '"><span class="sp-toc-number">' + numberText + '</span>' + text + '</a>');
+    $toc.append($li);
+  });
+
+  // Add smooth scroll
+  if (options.smoothScroll) {
+    jQuery('#sp-toc-' + blockId + ' a').on('click', function (e) {
+      e.preventDefault();
+      var target = jQuery(this.getAttribute('href'));
+      if (target.length) {
+        jQuery('html, body').animate({
+          scrollTop: target.offset().top - options.offset
+        }, 500);
+      }
+    });
+  }
+}

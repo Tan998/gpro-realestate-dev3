@@ -47,7 +47,7 @@ jQuery( document ).ready(
                                         jQuery( '.fieldset_mlsimport_rapattoni_client_id,.fieldset_mlsimport_rapattoni_client_secret,.fieldset_mlsimport_rapattoni_username,.fieldset_mlsimport_rapattoni_password ' ).hide();
                                         jQuery( '.fieldset_mlsimport_paragon_client_id, .fieldset_mlsimport_paragon_client_secret' ).hide();
                                         jQuery( '.fieldset_mlsimport_realtorca_client_id, .fieldset_mlsimport_realtorca_client_secret' ).hide();
-                                } else if ( selected_value >= 7000 ) {
+                                } else if ( mlsimport_is_realtorca( selected_value ) ) {
 
                                         jQuery( '.fieldset_mlsimport_mls_token' ).hide();
                                         jQuery( '.fieldset_mlsimport_tresle_client_id, .fieldset_mlsimport_tresle_client_secret' ).hide();
@@ -55,7 +55,7 @@ jQuery( document ).ready(
                                         jQuery( '.fieldset_mlsimport_rapattoni_client_id,.fieldset_mlsimport_rapattoni_client_secret,.fieldset_mlsimport_rapattoni_username,.fieldset_mlsimport_rapattoni_password ' ).hide();
                                         jQuery( '.fieldset_mlsimport_paragon_client_id, .fieldset_mlsimport_paragon_client_secret' ).hide();
                                         jQuery( '.fieldset_mlsimport_realtorca_client_id, .fieldset_mlsimport_realtorca_client_secret' ).show();
-                                } else if ( selected_value >= 6000 ) {
+                                } else if ( mlsimport_is_paragon( selected_value ) ) {
 
                                         jQuery( '.fieldset_mlsimport_mls_token' ).hide();
                                         jQuery( '.fieldset_mlsimport_tresle_client_id, .fieldset_mlsimport_tresle_client_secret' ).hide();
@@ -63,7 +63,7 @@ jQuery( document ).ready(
                                         jQuery( '.fieldset_mlsimport_rapattoni_client_id,.fieldset_mlsimport_rapattoni_client_secret,.fieldset_mlsimport_rapattoni_username,.fieldset_mlsimport_rapattoni_password ' ).hide();
                                         jQuery( '.fieldset_mlsimport_paragon_client_id, .fieldset_mlsimport_paragon_client_secret' ).show();
                                         jQuery( '.fieldset_mlsimport_realtorca_client_id, .fieldset_mlsimport_realtorca_client_secret' ).hide();
-                                } else if ( selected_value >= 5000 ) {
+                                } else if ( mlsimport_is_rapattoni( selected_value ) ) {
 
                                         jQuery( '.fieldset_mlsimport_mls_token' ).hide();
                                         jQuery( '.fieldset_mlsimport_tresle_client_id,.fieldset_mlsimport_tresle_client_secret' ).hide();
@@ -71,15 +71,7 @@ jQuery( document ).ready(
                                         jQuery( '.fieldset_mlsimport_rapattoni_client_id,.fieldset_mlsimport_rapattoni_client_secret,.fieldset_mlsimport_rapattoni_username,.fieldset_mlsimport_rapattoni_password ' ).show();
                                         jQuery( '.fieldset_mlsimport_paragon_client_id, .fieldset_mlsimport_paragon_client_secret' ).hide();
                                         jQuery( '.fieldset_mlsimport_realtorca_client_id, .fieldset_mlsimport_realtorca_client_secret' ).hide();
-                                } else if ( mlsimport_is_connectmls( selected_value ) ) {
-
-                                        jQuery( '.fieldset_mlsimport_mls_token' ).hide();
-                                        jQuery( '.fieldset_mlsimport_tresle_client_id,.fieldset_mlsimport_tresle_client_secret' ).hide();
-                                        jQuery( '.fieldset_mlsimport_connectmls_username, .fieldset_mlsimport_connectmls_password' ).show();
-                                        jQuery( '.fieldset_mlsimport_rapattoni_client_id,.fieldset_mlsimport_rapattoni_client_secret,.fieldset_mlsimport_rapattoni_username,.fieldset_mlsimport_rapattoni_password ' ).hide();
-                                        jQuery( '.fieldset_mlsimport_paragon_client_id, .fieldset_mlsimport_paragon_client_secret' ).hide();
-                                        jQuery( '.fieldset_mlsimport_realtorca_client_id, .fieldset_mlsimport_realtorca_client_secret' ).hide();
-                                } else if ( selected_value > 900 && selected_value < 3000) {
+                                } else if ( mlsimport_is_trestle( selected_value ) ) {
 
                                         jQuery( '.fieldset_mlsimport_mls_token' ).hide();
                                         jQuery( '.fieldset_mlsimport_rapattoni_client_id,.fieldset_mlsimport_rapattoni_client_secret,.fieldset_mlsimport_rapattoni_username,.fieldset_mlsimport_rapattoni_password ' ).hide();
@@ -616,7 +608,27 @@ function mlsimport_is_connectmls( selected_value )
                 return false;
         }
 
-        return ( selected_value >= 3000 && selected_value < 5000 ) || selected_value >= 8000;
+        return selected_value >= 8000 && selected_value < 9000;
+}
+
+function mlsimport_is_realtorca( selected_value )
+{
+        return selected_value >= 7000 && selected_value < 8000;
+}
+
+function mlsimport_is_paragon( selected_value )
+{
+        return selected_value >= 6000 && selected_value < 7000;
+}
+
+function mlsimport_is_rapattoni( selected_value )
+{
+        return selected_value >= 5000 && selected_value < 6000;
+}
+
+function mlsimport_is_trestle( selected_value )
+{
+        return selected_value > 900 && selected_value < 3000;
 }
 
 function mlsimport_token_on_load()
@@ -634,7 +646,7 @@ function mlsimport_token_on_load()
                 jQuery( '.fieldset_mlsimport_rapattoni_client_id,.fieldset_mlsimport_rapattoni_client_secret,.fieldset_mlsimport_rapattoni_username,.fieldset_mlsimport_rapattoni_password ' ).hide();
                 jQuery( '.fieldset_mlsimport_paragon_client_id, .fieldset_mlsimport_paragon_client_secret' ).hide();
                 jQuery( '.fieldset_mlsimport_realtorca_client_id, .fieldset_mlsimport_realtorca_client_secret' ).hide();
-        } else if ( selected_value >= 7000 ) {
+        } else if ( mlsimport_is_realtorca( selected_value ) ) {
 
                 jQuery( '.fieldset_mlsimport_mls_token' ).hide();
                 jQuery( '.fieldset_mlsimport_tresle_client_id' ).hide();
@@ -643,7 +655,7 @@ function mlsimport_token_on_load()
                 jQuery( '.fieldset_mlsimport_rapattoni_client_id,.fieldset_mlsimport_rapattoni_client_secret,.fieldset_mlsimport_rapattoni_username,.fieldset_mlsimport_rapattoni_password ' ).hide();
                 jQuery( '.fieldset_mlsimport_paragon_client_id, .fieldset_mlsimport_paragon_client_secret' ).hide();
                 jQuery( '.fieldset_mlsimport_realtorca_client_id, .fieldset_mlsimport_realtorca_client_secret' ).show();
-        } else if ( selected_value >= 6000 ) {
+        } else if ( mlsimport_is_paragon( selected_value ) ) {
 
                 jQuery( '.fieldset_mlsimport_paragon_client_id, .fieldset_mlsimport_paragon_client_secret' ).show();
                 jQuery( '.fieldset_mlsimport_rapattoni_client_id,.fieldset_mlsimport_rapattoni_client_secret,.fieldset_mlsimport_rapattoni_username,.fieldset_mlsimport_rapattoni_password ' ).hide();
@@ -652,7 +664,7 @@ function mlsimport_token_on_load()
                 jQuery( '.fieldset_mlsimport_tresle_client_id' ).hide();
                 jQuery( '.fieldset_mlsimport_tresle_client_secret' ).hide();
                 jQuery( '.fieldset_mlsimport_realtorca_client_id, .fieldset_mlsimport_realtorca_client_secret' ).hide();
-        } else if ( selected_value >= 5000 ) {
+        } else if ( mlsimport_is_rapattoni( selected_value ) ) {
 
                 jQuery( '.fieldset_mlsimport_rapattoni_client_id,.fieldset_mlsimport_rapattoni_client_secret,.fieldset_mlsimport_rapattoni_username,.fieldset_mlsimport_rapattoni_password ' ).show();
                 jQuery( '.fieldset_mlsimport_mls_token' ).hide();
@@ -661,16 +673,7 @@ function mlsimport_token_on_load()
                 jQuery( '.fieldset_mlsimport_connectmls_username, .fieldset_mlsimport_connectmls_password' ).hide();
                 jQuery( '.fieldset_mlsimport_paragon_client_id, .fieldset_mlsimport_paragon_client_secret' ).hide();
                 jQuery( '.fieldset_mlsimport_realtorca_client_id, .fieldset_mlsimport_realtorca_client_secret' ).hide();
-        } else if ( mlsimport_is_connectmls( selected_value ) ) {
-
-                jQuery( '.fieldset_mlsimport_mls_token' ).hide();
-                jQuery( '.fieldset_mlsimport_tresle_client_id' ).hide();
-                jQuery( '.fieldset_mlsimport_tresle_client_secret' ).hide();
-                jQuery( '.fieldset_mlsimport_connectmls_username, .fieldset_mlsimport_connectmls_password' ).show();
-                jQuery( '.fieldset_mlsimport_rapattoni_client_id,.fieldset_mlsimport_rapattoni_client_secret,.fieldset_mlsimport_rapattoni_username,.fieldset_mlsimport_rapattoni_password ' ).hide();
-                jQuery( '.fieldset_mlsimport_paragon_client_id, .fieldset_mlsimport_paragon_client_secret' ).hide();
-                jQuery( '.fieldset_mlsimport_realtorca_client_id, .fieldset_mlsimport_realtorca_client_secret' ).hide();
-        } else if ( selected_value > 900 && selected_value < 3000) {
+        } else if ( mlsimport_is_trestle( selected_value ) ) {
 
                 jQuery( '.fieldset_mlsimport_mls_token' ).hide();
                 jQuery( '.fieldset_mlsimport_tresle_client_id' ).show();

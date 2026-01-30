@@ -700,8 +700,6 @@ a[disabled],a:disabled{--tw-text-opacity:1 !important;color:rgb(211 206 210 / va
 .sp-toast-success{background:#0f8a5e !important}
 .sp-toast-error{background:#df2a4a !important}
 .sp-toast-warning{background:#d97602 !important}
-div.wp-link-input input::-moz-placeholder{color:rgba(255,255,255,0.5)}
-div.wp-link-input input::placeholder{color:rgba(255,255,255,0.5)}
 .mx-input::-moz-placeholder{color:#4f394d}
 .mx-input::placeholder{color:#4f394d}
 .mx-input{border-radius:6px}
@@ -871,6 +869,7 @@ to{opacity:0;filter:blur(10px)}
 .sp-mobile-view .sp-countdown-group{flex-wrap:wrap}
 .sp-mobile-view .sp-socialsharing-wrapper,.sp-mobile-view .sp-nav,.sp-mobile-view .sp-button-wrapper,.sp-mobile-view .sp-image-wrapper{text-align:center !important;justify-content:center !important}
 .sp-pricing-table-wrapper{border:1px #ffffff1f solid;text-align:center !important;justify-content:center !important}
+.sp-toc-wrapper{border:1px transparent solid}
 .sp-mobile-view .sp-cd-group{margin-bottom:1vh !important}
 .sp-mobile-view .sp-el-section,.sp-mobile-view .sp-el-row,.sp-mobile-view .sp-el-col,.sp-mobile-view .sp-el-block,.sp-mobile-view .sp-optin-wrapper,.sp-mobile-view .sp-testimonials-wrapper,.sp-mobile-view .sp-testimonial-wrapper{padding:8px !important}
 .sp-mobile-view img:not(".sp-testimonial-img"){height:auto !important}
@@ -1538,7 +1537,6 @@ to{transform:scale(1);opacity:.7}
 .seedprod-carousel-post-block .sp-posts-single-block.sp-minimal-posts,.sp-layout-masonary .sp-posts-single-block.sp-minimal-posts{border-top:0}
 .sp-block-button-overflow-text{overflow-wrap:anywhere}
 .sp-block-bottom-text{font-size:9px}
-.seedprod_page_seedprod_pro_builder div.wp-link-input input{background:#fff;color:#000}
 .rafflepress-giveaway-iframe-wrapper.rpoverlay:before{background-image:-webkit-linear-gradient(top,rgba(255,255,255,0) 0,rgba(255,255,255,1) 100%);content:'RafflePress Giveaway Preview';height:100%;position:absolute;width:100%;font-size:14px;left:0;text-align:center}
 .mypaykit-iframe-wrapper.rpoverlay:before{background-image:-webkit-linear-gradient(top,rgba(255,255,255,0) 0,rgba(255,255,255,1) 100%);content:'Mypaykit Form Preview';height:100%;position:absolute;width:100%;font-size:14px;left:0;text-align:center;color:#9f9797}
 .mypaykit-anchor-link{color:#dd4a1f}

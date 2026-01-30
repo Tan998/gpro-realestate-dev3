@@ -166,3 +166,5 @@ add_action('wp_footer', function () {
     <?php
 });
 
+add_filter('redirect_canonical', '__return_false');
+
