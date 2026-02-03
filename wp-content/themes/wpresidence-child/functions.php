@@ -166,5 +166,10 @@ add_action('wp_footer', function () {
     <?php
 });
 
-add_filter('redirect_canonical', '__return_false');
+// Shortcode hiển thị năm hiện tại
+function gpro_current_year_shortcode() {
+    return date('Y');
+}
+add_shortcode('current_year', 'gpro_current_year_shortcode');
+
 
