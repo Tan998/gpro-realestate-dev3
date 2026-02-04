@@ -326,3 +326,7 @@ Version: 1.0.0
 .mobile-trigger-user{
   visibility: hidden !important;
 }
+
+#wp-admin-bar-top-secondary{
+  visibility: hidden !important;
+}
