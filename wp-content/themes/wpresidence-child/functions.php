@@ -170,6 +170,7 @@ add_action('wp_footer', function () {
 function gpro_current_year_shortcode() {
     return date('Y');
 }
+add_shortcode('current_year', 'gpro_current_year_shortcode');
 
 // mở modal login form qua URL ?login=1
 add_action('wp_footer', function () {
