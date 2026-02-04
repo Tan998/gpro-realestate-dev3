@@ -170,6 +170,20 @@ add_action('wp_footer', function () {
 function gpro_current_year_shortcode() {
     return date('Y');
 }
-add_shortcode('current_year', 'gpro_current_year_shortcode');
+
+// mở modal login form qua URL ?login=1
+add_action('wp_footer', function () {
+    if ( isset($_GET['login']) && $_GET['login'] == '1' ) {
+        ?>
+        <script>
+        jQuery(function($) {
+            $('#modal_login_wrapper').fadeIn(200);
+            $('body').addClass('modal-open');
+        });
+        </script>
+        <?php
+    }
+});
+
 
 

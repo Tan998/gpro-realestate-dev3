@@ -10,12 +10,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-12-16T09:58:34+00:00\n"
-"PO-Revision-Date: 2026-01-22 04:58+0000\n"
+"PO-Revision-Date: 2026-02-04 04:43+0000\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: wpresidence\n"
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Loco-Version: 2.8.0; wp-6.9; php-8.2.4"
+"X-Loco-Version: 2.8.1; wp-6.9; php-8.2.4"
 
 #. Theme Name of the theme
 #: style.css
@@ -612,7 +612,7 @@ msgstr ""
 #: templates/dashboard-templates/user_profile_developer.php:61
 #: templates/submit_templates/property_location.php:115
 msgid "City"
-msgstr ""
+msgstr "市区町村"
 
 #: libs/advanced_search/searchfunctions.php:340
 #: libs/advanced_search/searchfunctions.php:2261
@@ -3483,7 +3483,7 @@ msgstr ""
 #: templates/dashboard-templates/user_profile_agent.php:62
 #: templates/dashboard-templates/user_profile_developer.php:62
 msgid "State/County"
-msgstr ""
+msgstr "都道府県"
 
 #: libs/property_page_functions/property_address_section_functions.php:128
 #: page-templates/compare_listings.php:124
@@ -5032,6 +5032,8 @@ msgid ""
 "Hello,\n"
 "I'm interested in [ %s ]"
 msgstr ""
+"Hi,\n"
+"I'm interested in [ %s ]"
 
 #: templates/listing_templates/contact_form/contact_form_simple.php:26
 #, php-format

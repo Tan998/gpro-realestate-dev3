@@ -317,3 +317,12 @@ Version: 1.0.0
   z-index: 2;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
 }
+
+/*hidden login icon*/
+.user_menu_wrapper{
+  visibility: hidden !important;
+}
+
+.mobile-trigger-user{
+  visibility: hidden !important;
+}

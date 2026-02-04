@@ -10,12 +10,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-12-16T09:58:34+00:00\n"
-"PO-Revision-Date: 2026-01-22 05:44+0000\n"
+"PO-Revision-Date: 2026-02-04 05:34+0000\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: wpresidence\n"
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Loco-Version: 2.8.0; wp-6.9; php-8.2.4"
+"X-Loco-Version: 2.8.1; wp-6.9; php-8.2.4"
 
 #. Theme Name of the theme
 #: style.css
@@ -2481,7 +2481,7 @@ msgstr ""
 
 #: libs/dashboard_functions/dashboard_functions.php:393
 msgid "Account Summary"
-msgstr ""
+msgstr "アカウント概要"
 
 #: libs/dashboard_functions/dashboard_functions.php:448
 msgid "Listings Views"
@@ -5031,7 +5031,7 @@ msgstr ""
 msgid ""
 "Hello,\n"
 "I'm interested in [ %s ]"
-msgstr ""
+msgstr "こんにちは、[ %s ]に興味があります。"
 
 #: templates/listing_templates/contact_form/contact_form_simple.php:26
 #, php-format
