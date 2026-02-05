@@ -319,11 +319,11 @@ Version: 1.0.0
 }
 
 /*hidden login icon*/
-.user_menu_wrapper{
+.header_wrapper .user_menu_wrapper{
   visibility: hidden !important;
 }
 
-.mobile-trigger-user{
+.mobile_header .mobile-trigger-user{
   visibility: hidden !important;
 }
 
